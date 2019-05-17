@@ -15,6 +15,10 @@ typedef enum {NORMAL, COEX, PREDATOR, VIRUS, UNKNOWN} GAME_MODE;
     Matching the above game modes. CELL_COEX_1 & CELL_COEX_2 used in game modes COEX & UNKNOWN. 
  */
 
-typedef enum {CELL_NORMAL, CELL_COEX_1, CELL_COEX_2, CELL_PREDATOR, CELL_VIRUS} CELL_TYPE;
+typedef enum {CELL_DEAD, CELL_NORMAL, CELL_COEX_1, CELL_COEX_2, CELL_PREDATOR, CELL_VIRUS} CELL_TYPE;
+
+typedef struct coor {
+  int x, y;
+} coordinates;
 
 #endif
