@@ -1,3 +1,5 @@
+#ifndef CONSTANTS_HEADER
+#define CONSTANTS_HEADER
 /* Game Modes 
 		NORMAL - Classic game of life simulation
 		COEX - Coexistance, two species coexisting with each other
