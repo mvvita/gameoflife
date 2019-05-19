@@ -23,6 +23,9 @@ void addCell(int x, int y, CELL_TYPE type, cell **table);
 // Removes a cell from (x, y)
 void removeCell(int x, int y, cell **table);
 
+// Gets cell at position (x, y)
+CELL_TYPE getCell(int x, int y, cell **table);
+
 // Returns 1 if a cell doesn't have alive neighbours
 int deadNeighbours(int x, int y, cell **table);
 
@@ -43,5 +46,9 @@ CELL_TYPE nextGenerationUnknown(int x, int y, cell **table);
 
 // Combines the above 5 functions into one 
 CELL_TYPE nextGeneration(int x, int y, GAME_MODE gameMode, cell **table);
+
+// Prints the table for NORMAL mode given the top-left and bottom-right coordinates
+// Used in development
+void printTable(int x1, int y1, int x2, int y2, cell **table); 
 
 #endif
