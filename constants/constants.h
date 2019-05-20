@@ -8,7 +8,7 @@
 		UNKNOWN - Two species, both evolve treating the other as dead cells
  */
 
-typedef enum {NORMAL, COEX, PREDATOR, VIRUS, UNKNOWN} GAME_MODE;
+typedef enum { NORMAL, COEX, PREDATOR, VIRUS, UNKNOWN, MENI, ABOUT } GAME_MODE;
 
 /* Cell Types 
 		Matching the above game modes. CELL_COEX_1 & CELL_COEX_2 used in game modes COEX & UNKNOWN. 
