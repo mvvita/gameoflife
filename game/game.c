@@ -20,6 +20,10 @@ void initGame(game **g, GAME_MODE gameMode) {
 
 // Frees the memory after usage (return to main menu)
 void destroyGame(game **g) {
+  // In case there is no game running
+  if (*g == NULL)
+    return; 
+  
   // Free hash table
   freeHashTable(&((*g)->table));
 
