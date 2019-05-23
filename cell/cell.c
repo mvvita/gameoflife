@@ -1,5 +1,5 @@
-#include "../constants/constants.h"
-#include "../uthash.h"
+#include "constants.h"
+#include "uthash.h"
 #include "cell.h"
 #include <stdlib.h>
 #include <stdio.h>
@@ -468,17 +468,9 @@ void printTable(int x1, int y1, int x2, int y2, cell **table) {
     for (y = y1; y <= y2; y++) {
       temp = getCell(x, y, table); 
 
-      if (temp == CELL_NORMAL)
-        printf("O");
-      else if (temp == CELL_PREDATOR)
-        printf("P");
-      else if (temp == CELL_VIRUS)
-        printf("V");
-      else if (temp == CELL_COEX_1)
-        printf("C");
-      else if (temp == CELL_COEX_2)
-        printf("X");
-      else
+      if (temp == CELL_DEAD)
         printf(" ");
+      else
+        printf("O");
     }
 }

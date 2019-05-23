@@ -20,10 +20,10 @@ GAME_MODE menu(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, GAME_
 	  "Predator and prey",
 	  "Virus spreading",
 	  "Unknown to eachother",
-	  "History of the game",
+	  "About the game",
 	};
 	// dimensions of rects that hold menu options
-	int wRect = 250;
+	int wRect = 300;
 	int hRect = 50;
 	// coordinates of the top rect
 	int xStart = WINDOW_W / 2 - wRect / 2;
