@@ -1,11 +1,10 @@
 #include <stdio.h>
-#include <stdbool.h>
 #include <string.h>
 #include "SDL.h"
 #include <SDL_ttf.h>
 #include "graphics.h"
 #include "menu.h"
-#include "constants.h"
+#include "../constants/constants.h"
 
 GAME_MODE menu(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, GAME_MODE mode, int ind) {
 
@@ -40,7 +39,7 @@ GAME_MODE menu(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, GAME_
 		textRect[i].w = wRect;
 		textRect[i].h = hRect;
 		yStart += hRect * 2;
-		SDL_QueryTexture(text, NULL, NULL, &textRect[i].w, &textRect[i].h);
+		SDL_QueryTexture(text[i], NULL, NULL, &textRect[i].w, &textRect[i].h);
 		SDL_FreeSurface(textSurface);
 		textSurface = NULL;
 	}
@@ -48,8 +47,11 @@ GAME_MODE menu(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, GAME_
 	// coloring currently available menu option differently
 	SDL_SetTextureColorMod(text[ind], 255, 0, 0);
 
-	for (int i = 0; i < maxChoices; i++)
+	for (int i = 0; i < maxChoices; i++) {
 		SDL_RenderCopy(renderer, text[i], NULL, &textRect[i]);
+		SDL_DestroyTexture(text[i]);
+	}
+		
 	
 	return MENI;
 }

@@ -2,8 +2,8 @@
 #ifndef CELL_HEADER
 #define CELL_HEADER
 
-#include "constants.h"
-#include "uthash.h"
+#include "../constants/constants.h"
+#include "../uthash.h"
 
 /*
   Cells that will be hashed are the ones that are alive,

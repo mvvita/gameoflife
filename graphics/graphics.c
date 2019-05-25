@@ -23,12 +23,14 @@ bool setup(SDL_Window** window, SDL_Renderer** renderer, TTF_Font** font, SDL_Su
 		return false;
 
 	// creating window and renderer
-	*window = SDL_CreateWindow("Game of life", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_W, WINDOW_H, SDL_WINDOW_RESIZABLE);
+	*window = SDL_CreateWindow("Game of life", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_W, WINDOW_H, SDL_WINDOW_RESIZABLE | SDL_RENDERER_ACCELERATED);
 	if (*window == NULL)
 		return false;
+
 	*renderer = SDL_CreateRenderer(*window, -1, 0);
 	if (*renderer == NULL)
 		return false;
+
 
 	//setting up main screen
 	*screen = SDL_GetWindowSurface(*window);
@@ -36,6 +38,7 @@ bool setup(SDL_Window** window, SDL_Renderer** renderer, TTF_Font** font, SDL_Su
 	*texture = SDL_CreateTextureFromSurface(*renderer, *screen);
 	if (*screen == NULL || *texture == NULL)
 		return false;
+
 
 	return true;
 }

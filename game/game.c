@@ -23,9 +23,9 @@ void destroyGame(game **g) {
   // In case there is no game running
   if (*g == NULL)
     return; 
-  
+
   // Free hash table
-  freeHashTable(&((*g)->table));
+  freeHashTable(&(*g)->table);
 
   free(*g);
 
@@ -34,16 +34,19 @@ void destroyGame(game **g) {
 
 // Calculates the overall next generation 
 void evolve(game *g) {
+if (g == NULL || g->table == NULL)
+	return;
   cell *newTable = NULL;
   cell *p, *tmp;
   CELL_TYPE next;
 
+
   HASH_ITER(hh, g->table, p, tmp) {
     next = nextGeneration(p->location.x, p->location.y, g->gameMode, &g->table);
 
-    if (next != CELL_DEAD)
-      addCell(p->location.x, p->location.y, next, &newTable);
-
+	if (next != CELL_DEAD) {
+		addCell(p->location.x, p->location.y, next, &newTable);
+	}
     if (p->cellType != CELL_DEAD && next == CELL_DEAD)
       g->population--;
 
@@ -53,22 +56,26 @@ void evolve(game *g) {
 
   freeHashTable(&g->table);
 
+  free(g->table);
+
   g->generation++;
   g->table = newTable;
+
 }
 
 // Frees a hash table
 void freeHashTable(cell **table) {
+  if (*table == NULL)
+    return;
   cell *p, *tmp;
 
   HASH_ITER(hh, *table, p, tmp) {
-    HASH_DEL(*table, p);
-    free(p);
+	  HASH_DEL(*table, p);
+	  free(p);
   }
-
   free(*table);
-
   *table = NULL;
+
 }
 
 // Adds a cell to the game

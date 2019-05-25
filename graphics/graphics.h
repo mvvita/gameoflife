@@ -3,7 +3,7 @@
 
 #include "SDL.h"
 #include <SDL_ttf.h>
-
+#include <stdbool.h>
 // window dimensions
 #define WINDOW_W 1300
 #define WINDOW_H 700
@@ -23,7 +23,7 @@ typedef struct Button {
 } button;
 
 button InitButton(bool click, int x, int y, int width, int height);
-
+void clearButton(button *b);
 //initializes all subsystems
 bool initialize();
 

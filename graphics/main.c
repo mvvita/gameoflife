@@ -1,9 +1,13 @@
 #include <stdbool.h>
 #include <string.h>
-#include <SDL_ttf.h>
-#include "SDL.h"
+#include <SDL2/SDL_ttf.h>
+#include "SDL2/SDL.h"
+#include "../game/game.h"
 #include "menu.h"
-#include "game.h"
+#include "graphics.h"
+#include "menu.h"
+#include "gameWindow.h"
+#include "event.h"
 
 int main() {
 
@@ -25,14 +29,12 @@ int main() {
 	if (setup(&window, &renderer, &font, &screen, &texture) == false)
 		return 1;
 
-	bool isRunning = true;
 	int ind = 0;
 	// setting game mode to begin with
 	initGame(&g, MENI);
 
 	// main loop that manages events
-	while (isRunning)
-		handle_events(&window, &renderer, &texture, &font, &isRunning, &event, &ind, &g, frameStart, frameTime);
+	handle_events(&window, &renderer, &texture, &font, &event, &ind, &g, frameStart, frameTime);
 
 	// cleanup
 	destroyGame(&g);

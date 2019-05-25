@@ -1,6 +1,6 @@
-#include "constants.h"
-#include "uthash.h"
-#include "cell.h"
+#include "../constants/constants.h"
+#include "../cell/cell.h"
+#include "../uthash.h"
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -302,8 +302,10 @@ CELL_TYPE nextGenerationPredator(int x, int y, cell **table) {
     if (neighboursPredator == 2 || neighboursPredator == 3)
       return CELL_PREDATOR;
 
-  } else if (neighboursPredator == 0 && neighboursNormal == 3)
+  } else if (neighboursPredator == 0 && neighboursNormal == 3) {
       return CELL_NORMAL;
+  } else if (neighboursPredator == 3)
+      return CELL_PREDATOR;
 
   return CELL_DEAD;
 }
@@ -468,9 +470,17 @@ void printTable(int x1, int y1, int x2, int y2, cell **table) {
     for (y = y1; y <= y2; y++) {
       temp = getCell(x, y, table); 
 
-      if (temp == CELL_DEAD)
-        printf(" ");
-      else
+      if (temp == CELL_NORMAL)
         printf("O");
+      else if (temp == CELL_PREDATOR)
+        printf("P");
+      else if (temp == CELL_VIRUS)
+        printf("V");
+      else if (temp == CELL_COEX_1)
+        printf("C");
+      else if (temp == CELL_COEX_2)
+        printf("X");
+      else
+        printf(" ");
     }
 }

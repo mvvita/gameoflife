@@ -1,4 +1,8 @@
 #include "configurations.h"
+#include "../game/game.h"
+#include "../cell/cell.h"
+#include <stdlib.h>
+#include <stdio.h>
 
 // Loads configuration from a file into the game
 void loadConfiguration(game **g, char *path) {
@@ -23,7 +27,7 @@ void loadConfiguration(game **g, char *path) {
     int x, y, type, format;
     format = fscanf(f, "%d%d%d", &x, &y, &type);
 
-    if (format == 0 || format == EOF) {
+    if (format == EOF) {
       fclose(f);
       destroyGame(g);
       *g = temp;
