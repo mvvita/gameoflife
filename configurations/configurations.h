@@ -9,9 +9,9 @@
 #include <string.h>
 
 // Loads configuration from a file into the game
-void loadConfiguration(game **g, char *path); 
+void loadConfiguration(game **g); 
 
 // Saves the current configuration in a file
-void saveConfiguration(game **g, char *path);
+void saveConfiguration(game **g);
 
 #endif

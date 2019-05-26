@@ -1,7 +1,7 @@
 #include <stdbool.h>
 #include <string.h>
-#include <SDL2/SDL_ttf.h>
-#include "SDL2/SDL.h"
+#include <SDL_ttf.h>
+#include "SDL.h"
 #include "../game/game.h"
 #include "menu.h"
 #include "graphics.h"

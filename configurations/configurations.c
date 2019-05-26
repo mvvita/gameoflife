@@ -5,7 +5,11 @@
 #include <stdio.h>
 
 // Loads configuration from a file into the game
-void loadConfiguration(game **g, char *path) {
+void loadConfiguration(game **g) {
+  char path[30];
+  printf("Insert path to configuration file:\n");
+  scanf("%s", path);
+
   FILE *f = fopen(path, "r");
 
   if (f == NULL) {
@@ -46,7 +50,11 @@ void loadConfiguration(game **g, char *path) {
 }
 
 // Saves the current configuration in a file
-void saveConfiguration(game **g, char *path) {
+void saveConfiguration(game **g) {
+  char path[30];
+  printf("Insert path to configuration file:\n");
+  scanf("%s", path);
+
   FILE *f = fopen(path, "w");
 
   if (f == NULL) {

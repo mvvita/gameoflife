@@ -34,8 +34,8 @@ void destroyGame(game **g) {
 
 // Calculates the overall next generation 
 void evolve(game *g) {
-if (g == NULL || g->table == NULL)
-	return;
+  if (g == NULL || g->table == NULL)
+  	return;
   cell *newTable = NULL;
   cell *p, *tmp;
   CELL_TYPE next;
