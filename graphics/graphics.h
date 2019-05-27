@@ -8,8 +8,6 @@
 #define WINDOW_W 1300
 #define WINDOW_H 700
 
-// cell w/h
-#define CELL 15 
 
 // number of choices from menu
 #define maxChoices 6

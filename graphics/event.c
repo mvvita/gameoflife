@@ -6,6 +6,7 @@
 #include "event.h"
 #include "graphics.h"
 #include "gameWindow.h"
+#include "../configurations/configurations.h"
 #include "menu.h"
 #include "SDL.h"
 #include <SDL_ttf.h>
@@ -14,6 +15,10 @@
 // tracks keyboard events and game state 
 void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** texture, TTF_Font** font, SDL_Event* event, int* ind, game** g, Uint32 frameStart, int frameTime) {
 	CELL_TYPE ctype = CELL_NORMAL;
+	int CELL = 15;
+	int time = 0;
+	Uint32 timeCounter = -1;
+	coordinates playerView = { 0,0 };
 	bool isRunning = true;
 	bool state = false; // simulation not running at the moment
 	int redrawRectangles = 1;
@@ -26,8 +31,12 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 	SDL_Rect playpos = { WINDOW_W - 50, 200, 30, 30 };
 	SDL_Rect ctype1pos = { WINDOW_W*0.45 - 35, WINDOW_H* 0.92, 30, 30 };
 	SDL_Rect ctype2pos = { WINDOW_W*0.45 + 5, WINDOW_H* 0.92, 30, 30 };
+	SDL_Rect downloadpos = { WINDOW_W - 50, 50, 30, 30 };
+	SDL_Rect uploadpos = { WINDOW_W - 50, 90, 30, 30 };
 	cell *p, *temp;
 	while (isRunning) {
+		if (timeCounter == -1)
+			timeCounter = SDL_GetTicks();
 		frameStart = SDL_GetTicks();
 		while (SDL_PollEvent(event) != 0) {
 			switch ((*event).type) {
@@ -39,18 +48,29 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 				switch ((*event).key.keysym.sym) {
 					// keys that control menu options
 				case SDLK_DOWN:
-					*ind = (*ind + 1) % maxChoices;
+					if ((*g)->gameMode == MENI)
+						*ind = (*ind + 1) % maxChoices;
+					else
+						down(&playerView);
 					break;
 				case SDLK_UP:
-					*ind = (*ind == 0 ? 5 : *ind - 1);
+					if ((*g)->gameMode == MENI)
+						*ind = (*ind == 0 ? 5 : *ind - 1);
+					else
+						up(&playerView);
+					break;
+				case SDLK_LEFT:
+					left(&playerView);
+					break;
+				case SDLK_RIGHT:
+					right(&playerView);
 					break;
 				case SDLK_SPACE:
-					// add case for enter key later, can't find key code
+				// add case for enter key later, can't find key code
 					changedGameMode = 1;
 					switch (*ind) {
 					case 0:
 						(*g)->gameMode = NORMAL;
-						// loadConfiguration(g, "../configurations/glider_gun.txt");
 						count = 1;
 						break;
 					case 1:
@@ -74,36 +94,49 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 						break;
 					}
 					break;
-					// key for game quit
+				// key for game quit
 				case SDLK_ESCAPE:
 					isRunning = false;
 					break;
-					// key for returning to menu
+				// key for returning to menu
 				case SDLK_r:
 					destroyGame(g);
+					time = 0;
 					initGame(g, MENI);
 					break;
 				case SDLK_p:
 					state = !state;
+					timeCounter = -1;
 					break;
 				}
-				// handling mouse events
+			// handling mouse events
 			case SDL_MOUSEBUTTONDOWN:
 				if ((*event).motion.x < WINDOW_W*0.95 && (*event).motion.y < WINDOW_H*0.9) {
-					if (getCell((*event).motion.x / CELL, (*event).motion.y / CELL, &(*g)->table) == CELL_DEAD)
-						addCellToGame((*event).motion.x / CELL, (*event).motion.y / CELL, ctype, *g);
+					int dx = playerView.x;
+					int dy = playerView.y;
+					int minusX = (dx + (*event).motion.x) < 0 ? 1 : 0;
+					int minusY = (dy + (*event).motion.y) < 0 ? 1 : 0;
+					if (getCell(((*event).motion.x + dx)/ CELL - minusX, ((*event).motion.y + dy ) / CELL - minusY, &(*g)->table) == CELL_DEAD)
+						addCellToGame(((*event).motion.x + dx)/ CELL - minusX, ((*event).motion.y + dy)/ CELL - minusY, ctype, *g);
 					else
-						removeCellFromGame((*event).motion.x / CELL, (*event).motion.y / CELL, *g);
+						removeCellFromGame(((*event).motion.x + dx) / CELL - minusX, ((*event).motion.y + dy) / CELL - minusY, *g);
 				}else {
 					if (CheckIfClickedOn(returnpos, (*event).motion.x, (*event).motion.y)) {
 						state = 0;
+						time = 0;
+						ctype = CELL_NORMAL;
 						destroyGame(g);
 						initGame(g, MENI);
 						break;
 					}
 					if (CheckIfClickedOn(playpos, (*event).motion.x, (*event).motion.y)) {
 						state = !state;
+						timeCounter = -1;
 					}
+					if (CheckIfClickedOn(downloadpos, (*event).motion.x, (*event).motion.y))
+						loadConfiguration(g);
+					if (CheckIfClickedOn(uploadpos, (*event).motion.x, (*event).motion.y))
+						saveConfiguration(g);
 					if (CheckIfClickedOn(ctype1pos, (*event).motion.x, (*event).motion.y))
 						switch ((*g)->gameMode)
 						{
@@ -138,6 +171,15 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 						}
 				}
 				break;
+			// handling mouse wheel events
+			case SDL_MOUSEWHEEL:
+				// mouse wheel scroll up
+				if (event->wheel.y > 0)
+					zoom_in(&CELL, &playerView);
+				// mouse wheel scroll down
+				if (event->wheel.y < 0)
+					zoom_out(&CELL, &playerView);
+				break;
 			default:
 				break;
 			}	
@@ -146,6 +188,10 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 		frameTime = SDL_GetTicks() - frameStart;
 		if (frameDelay > frameTime) {
 			SDL_Delay(frameDelay - frameTime);
+		}
+		if (SDL_GetTicks() - timeCounter >= 1000 && state) {
+			timeCounter = -1;
+			time++;
 		}
 
 		count++;
@@ -161,22 +207,24 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 		switch ((*g)->gameMode)
 		{
 		case MENI:
+			playerView.x = 0; playerView.y = 0;
+			CELL = 15;
 			menu(*window, *renderer, *font, (*g)->gameMode, *ind);
 			break;
 		case NORMAL:
-			normal(*window, *renderer, *font, g);
+			normal(*window, *renderer, *font, g, CELL, playerView, time);
 			break;
 		case COEX:
-			coex(*window, *renderer, *font, g);
+			coex(*window, *renderer, *font, g, CELL, playerView, time);
 			break;
 		case PREDATOR:
-			predator(*window, *renderer, *font,  g);
+			predator(*window, *renderer, *font,  g, CELL, playerView, time);
 			break;
 		case VIRUS:
-			virus(*window, *renderer, *font, g);
+			virus(*window, *renderer, *font, g, CELL, playerView, time);
 			break;
 		case UNKNOWN:
-			unknown(*window, *renderer, *font, g);
+			unknown(*window, *renderer, *font, g, CELL, playerView, time);
 			break;
 		case ABOUT:
 			break;
