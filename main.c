@@ -1,13 +1,12 @@
 #include <stdbool.h>
 #include <string.h>
-#include <SDL_ttf.h>
-#include "SDL.h"
-#include "../game/game.h"
-#include "menu.h"
-#include "graphics.h"
-#include "menu.h"
-#include "gameWindow.h"
-#include "event.h"
+#include <SDL2/SDL_ttf.h>
+#include "SDL2/SDL.h"
+#include "game/game.h"
+#include "graphics/menu.h"
+#include "graphics/graphics.h"
+#include "graphics/gameWindow.h"
+#include "graphics/event.h"
 
 int main() {
 

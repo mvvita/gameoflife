@@ -4,8 +4,8 @@
 #include "../constants/constants.h"
 #include "../game/game.h"
 #include "graphics.h"
-#include "SDL.h"
-#include <SDL_ttf.h>
+#include "SDL2/SDL.h"
+#include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
 
 // tracks keyboard events and game state 

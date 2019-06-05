@@ -1,8 +1,8 @@
 #include <stdbool.h>
 #include "graphics.h"
-#include "SDL.h"
-#include <SDL_ttf.h>
-#include <SDL_image.h>
+#include "SDL2/SDL.h"
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 
 //initializes all subsystems
 bool initialize() {
@@ -18,7 +18,7 @@ bool initialize() {
 //sets up window, renderer, main screen and font
 bool setup(SDL_Window** window, SDL_Renderer** renderer, TTF_Font** font, SDL_Surface** screen, SDL_Texture** texture) {
 	// loading font
-	*font = TTF_OpenFont("gamecontinue.ttf", 25);
+	*font = TTF_OpenFont("graphics/gamecontinue.ttf", 25);
 	if (*font == NULL)
 		return false;
 

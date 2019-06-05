@@ -48,8 +48,6 @@ void addCell(int x, int y, CELL_TYPE type, cell **table) {
         if (xi == x && yi == y) 
           continue;
 
-        // printf("Adding type : %d after (%d, %d, %d)\n",CELL_DEAD, xi, yi, type);
-
         // Add a dead neighbour (if an alive one doesn't exist)
         addCell(xi, yi, CELL_DEAD, table);
 

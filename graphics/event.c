@@ -8,8 +8,8 @@
 #include "gameWindow.h"
 #include "../configurations/configurations.h"
 #include "menu.h"
-#include "SDL.h"
-#include <SDL_ttf.h>
+#include "SDL2/SDL.h"
+#include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
 
 // tracks keyboard events and game state 
@@ -23,9 +23,9 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 	bool state = false; // simulation not running at the moment
 	int redrawRectangles = 1;
 	int changedGameMode = 0;
-	const int FPS = 60;
+	const int FPS = 30;
 	const int frameDelay = 1000 / FPS;
-	int speed = 3;
+	int speed = 2;
 	int count = 0;
 	SDL_Rect returnpos = { WINDOW_W - 50, 10, 30, 30 };
 	SDL_Rect playpos = { WINDOW_W - 50, 200, 30, 30 };
@@ -65,7 +65,7 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 				case SDLK_RIGHT:
 					right(&playerView);
 					break;
-				case SDLK_SPACE:
+        case SDLK_SPACE: case SDLK_RETURN:
 				// add case for enter key later, can't find key code
 					changedGameMode = 1;
 					switch (*ind) {
@@ -134,7 +134,7 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 						timeCounter = -1;
 					}
 					if (CheckIfClickedOn(downloadpos, (*event).motion.x, (*event).motion.y))
-						loadConfiguration(g);
+						loadConfigurationWithList(g);
 					if (CheckIfClickedOn(uploadpos, (*event).motion.x, (*event).motion.y))
 						saveConfiguration(g);
 					if (CheckIfClickedOn(ctype1pos, (*event).motion.x, (*event).motion.y))

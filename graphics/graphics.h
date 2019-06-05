@@ -1,8 +1,8 @@
 #ifndef GRAPHICS_HEADER
 #define GRAPHICS_HEADER
 
-#include "SDL.h"
-#include <SDL_ttf.h>
+#include "SDL2/SDL.h"
+#include <SDL2/SDL_ttf.h>
 #include <stdbool.h>
 // window dimensions
 #define WINDOW_W 1300

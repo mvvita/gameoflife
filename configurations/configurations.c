@@ -5,11 +5,7 @@
 #include <stdio.h>
 
 // Loads configuration from a file into the game
-void loadConfiguration(game **g) {
-  char path[30];
-  printf("Insert path to configuration file:\n");
-  scanf("%s", path);
-
+void loadConfiguration(game **g, char *path) {
   FILE *f = fopen(path, "r");
 
   if (f == NULL) {
@@ -47,6 +43,25 @@ void loadConfiguration(game **g) {
     addCellToGame(x, y, (CELL_TYPE) type, temp);
   }
 
+}
+
+// Loads configuration giving the user option to choose current configurations
+void loadConfigurationWithList(game **g) {
+  printf("1. Glider\n");
+  printf("2. Glider gun\n");
+  printf("0. Custom\n");
+  int k;
+  scanf("%d", &k);
+  if (k == 1)
+    loadConfiguration(g, "configurations/glider.txt");
+  else if (k == 2)
+    loadConfiguration(g, "configurations/gg_1003.txt");
+  else {
+    char path[30];
+    printf("Insert path: ");
+    scanf("%s", path);
+    loadConfiguration(g, path);
+  }
 }
 
 // Saves the current configuration in a file

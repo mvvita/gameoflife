@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include "SDL.h"
-#include <SDL_ttf.h>
+#include "SDL2/SDL.h"
+#include <SDL2/SDL_ttf.h>
 #include "graphics.h"
 #include "menu.h"
 #include "../constants/constants.h"
