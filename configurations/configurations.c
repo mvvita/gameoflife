@@ -49,6 +49,7 @@ void loadConfiguration(game **g, char *path) {
 void loadConfigurationWithList(game **g) {
   printf("1. Glider\n");
   printf("2. Glider gun\n");
+  printf("3. Virus configuration\n");
   printf("0. Custom\n");
   int k;
   scanf("%d", &k);
@@ -56,6 +57,8 @@ void loadConfigurationWithList(game **g) {
     loadConfiguration(g, "configurations/glider.txt");
   else if (k == 2)
     loadConfiguration(g, "configurations/gg_1003.txt");
+  else if (k == 3)
+    loadConfiguration(g, "configurations/randomvirus_3k.txt");
   else {
     char path[30];
     printf("Insert path: ");

@@ -63,6 +63,13 @@ void evolve(game *g) {
 
 }
 
+// Evolves by n generations
+void evolveByN(game *g, int n) {
+    int i;
+    for (i = 0; i < n; i++)
+        evolve(g);
+}
+
 // Frees a hash table
 void freeHashTable(cell **table) {
   if (*table == NULL)

@@ -20,6 +20,9 @@ void destroyGame(game **g);
 // Calculates the overall next generation 
 void evolve(game *g);
 
+// Evolves by n generations
+void evolveByN(game *g, int n);
+
 // Frees a hash table
 void freeHashTable(cell **table);
 

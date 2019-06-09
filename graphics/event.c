@@ -196,7 +196,7 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 
 		count++;
 		if (state && count >= speed) {
-			evolve(*g);
+			evolveByN(*g, 1);
 			count = 0;
 		}	
 
