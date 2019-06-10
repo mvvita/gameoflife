@@ -124,7 +124,7 @@ void setGameWindow(SDL_Window* window, SDL_Renderer* renderer, int CELL, coordin
 	SDL_RenderCopy(renderer, ins, NULL, &ins2Rect);
 
 	char ins3[50];
-	strcpy(ins3, "R - return to menu");
+	strcpy(ins3, "esc - return to menu");
 	SDL_Rect ins3Rect = { WINDOW_W*0.45 + 400, WINDOW_H* 0.91, 340, 12 };
 	iSurface = TTF_RenderText_Solid(font, ins3, red);
 	ins = SDL_CreateTextureFromSurface(renderer, iSurface);

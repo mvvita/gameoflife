@@ -97,12 +97,8 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 						break;
 					}
 					break;
-				// key for game quit
-				case SDLK_ESCAPE:
-					isRunning = false;
-					break;
 				// key for returning to menu
-				case SDLK_r:
+				case SDLK_ESCAPE:
 					destroyGame(g);
 					time = 0;
 					initGame(g, MENI);
@@ -144,9 +140,9 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 						if (gen > 1)
 							gen--;
 					}
-					if (CheckIfClickedOn(uploadpos, (*event).motion.x, (*event).motion.y))
-						loadConfigurationWithList(g);
 					if (CheckIfClickedOn(downloadpos, (*event).motion.x, (*event).motion.y))
+						loadConfigurationWithList(g);
+					if (CheckIfClickedOn(uploadpos, (*event).motion.x, (*event).motion.y))
 						saveConfiguration(g);
 					if (CheckIfClickedOn(ctype1pos, (*event).motion.x, (*event).motion.y))
 						switch ((*g)->gameMode)
