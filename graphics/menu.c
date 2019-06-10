@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <string.h>
-#include "SDL2/SDL.h"
-#include <SDL2/SDL_ttf.h>
+#include "SDL.h"
+#include <SDL_ttf.h>
 #include "graphics.h"
 #include "menu.h"
 #include "../constants/constants.h"
@@ -19,7 +19,7 @@ GAME_MODE menu(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, GAME_
 	  "Predator and prey",
 	  "Virus spreading",
 	  "Unknown to eachother",
-	  "About the game",
+	  "Exit the game",
 	};
 	// dimensions of rects that hold menu options
 	int wRect = 300;

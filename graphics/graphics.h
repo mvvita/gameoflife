@@ -1,8 +1,8 @@
 #ifndef GRAPHICS_HEADER
 #define GRAPHICS_HEADER
 
-#include "SDL2/SDL.h"
-#include <SDL2/SDL_ttf.h>
+#include "SDL.h"
+#include <SDL_ttf.h>
 #include <stdbool.h>
 // window dimensions
 #define WINDOW_W 1300
@@ -17,11 +17,12 @@
 typedef struct Button {
 	SDL_Texture* texture;
 	SDL_Rect position;
-	bool clicked;
 } button;
 
-button InitButton(bool click, int x, int y, int width, int height);
+button InitButton( int x, int y, int width, int height);
+
 void clearButton(button *b);
+
 //initializes all subsystems
 bool initialize();
 

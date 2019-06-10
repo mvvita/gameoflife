@@ -8,8 +8,8 @@
 #include "gameWindow.h"
 #include "../configurations/configurations.h"
 #include "menu.h"
-#include "SDL2/SDL.h"
-#include <SDL2/SDL_ttf.h>
+#include "SDL.h"
+#include <SDL_ttf.h>
 #include <stdbool.h>
 
 // tracks keyboard events and game state 
@@ -27,12 +27,15 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 	const int frameDelay = 1000 / FPS;
 	int speed = 2;
 	int count = 0;
+	int gen = 1;
 	SDL_Rect returnpos = { WINDOW_W - 50, 10, 30, 30 };
 	SDL_Rect playpos = { WINDOW_W - 50, 200, 30, 30 };
 	SDL_Rect ctype1pos = { WINDOW_W*0.45 - 35, WINDOW_H* 0.92, 30, 30 };
 	SDL_Rect ctype2pos = { WINDOW_W*0.45 + 5, WINDOW_H* 0.92, 30, 30 };
 	SDL_Rect downloadpos = { WINDOW_W - 50, 50, 30, 30 };
 	SDL_Rect uploadpos = { WINDOW_W - 50, 90, 30, 30 };
+	SDL_Rect pluspos = { WINDOW_W - 61, 290, 27, 28 };
+	SDL_Rect minuspos = { WINDOW_W - 32, 290, 27, 28 };
 	cell *p, *temp;
 	while (isRunning) {
 		if (timeCounter == -1)
@@ -65,8 +68,8 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 				case SDLK_RIGHT:
 					right(&playerView);
 					break;
-        case SDLK_SPACE: case SDLK_RETURN:
-				// add case for enter key later, can't find key code
+        case SDLK_SPACE:
+		case SDLK_RETURN:
 					changedGameMode = 1;
 					switch (*ind) {
 					case 0:
@@ -88,7 +91,7 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 						ctype = CELL_COEX_1;
 						break;
 					case 5:
-						(*g)->gameMode = ABOUT;
+						isRunning = false;
 						break;
 					default:
 						break;
@@ -133,9 +136,17 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 						state = !state;
 						timeCounter = -1;
 					}
-					if (CheckIfClickedOn(downloadpos, (*event).motion.x, (*event).motion.y))
-						loadConfigurationWithList(g);
+					if (CheckIfClickedOn(pluspos, (*event).motion.x, (*event).motion.y)) {
+						if (gen < 10)
+							gen++;
+					}
+					if (CheckIfClickedOn(minuspos, (*event).motion.x, (*event).motion.y)) {
+						if (gen > 1)
+							gen--;
+					}
 					if (CheckIfClickedOn(uploadpos, (*event).motion.x, (*event).motion.y))
+						loadConfigurationWithList(g);
+					if (CheckIfClickedOn(downloadpos, (*event).motion.x, (*event).motion.y))
 						saveConfiguration(g);
 					if (CheckIfClickedOn(ctype1pos, (*event).motion.x, (*event).motion.y))
 						switch ((*g)->gameMode)
@@ -196,7 +207,7 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 
 		count++;
 		if (state && count >= speed) {
-			evolveByN(*g, 1);
+			evolveByN(*g, gen);
 			count = 0;
 		}	
 
@@ -225,8 +236,6 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 			break;
 		case UNKNOWN:
 			unknown(*window, *renderer, *font, g, CELL, playerView, time);
-			break;
-		case ABOUT:
 			break;
 		default:
 			break;

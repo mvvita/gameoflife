@@ -1,8 +1,8 @@
 #ifndef MENU_DISPLAY
 #define MENU_DISPLAY
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_ttf.h"
+#include "SDL.h"
+#include "SDL_ttf.h"
 #include "../constants/constants.h"
 
 // Draws the menu

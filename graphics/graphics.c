@@ -1,8 +1,8 @@
 #include <stdbool.h>
 #include "graphics.h"
-#include "SDL2/SDL.h"
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_image.h>
+#include "SDL.h"
+#include <SDL_ttf.h>
+#include <SDL_image.h>
 
 //initializes all subsystems
 bool initialize() {
@@ -51,16 +51,19 @@ void cleanup(SDL_Window** window, TTF_Font** font) {
 	SDL_Quit();
 }
 
-button InitButton(bool click, int x, int y, int width, int height) {
+button InitButton( int x, int y, int width, int height) {
 	struct Button button;
 	button.texture = NULL;
-	button.clicked = click;
 	button.position.x = x;
 	button.position.y = y;
 	button.position.w = width;
 	button.position.h = height;
 
 	return button;
+}
+
+void clearButton(button* b) {
+	SDL_DestroyTexture(b->texture);
 }
 
 bool CheckIfClickedOn(SDL_Rect position, int mouse_x, int mouse_y) {

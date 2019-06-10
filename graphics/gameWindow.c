@@ -1,8 +1,9 @@
 #include <stdbool.h>
 #include <string.h>
-#include "SDL2/SDL.h"
-#include <SDL2/SDL_ttf.h>
-#include <SDL2/SDL_image.h>
+#include <stdio.h>
+#include "SDL.h"
+#include <SDL_ttf.h>
+#include <SDL_image.h>
 #include "graphics.h"
 #include "../constants/constants.h"
 #include "../game/game.h"
@@ -60,7 +61,7 @@ void setGameWindow(SDL_Window* window, SDL_Renderer* renderer, int CELL, coordin
 	char tt[30];
 	char hp[10];
 	strcpy(tt, "time: ");
-  sprintf(hp, "%d", time);
+    sprintf(hp, "%d", time);
 	strcat(tt, hp);
 	timeSurface = TTF_RenderText_Solid(font, tt, white);
 	t = SDL_CreateTextureFromSurface(renderer, timeSurface);
@@ -71,12 +72,12 @@ void setGameWindow(SDL_Window* window, SDL_Renderer* renderer, int CELL, coordin
 	
 	// showing generation
 	SDL_Texture* gen = NULL;
-	SDL_Rect genRect = { WINDOW_W*0.95-165,WINDOW_H*0.92 + 5,70,15 };
+	SDL_Rect genRect = { 250,WINDOW_H*0.92 + 5,70,15 };
 	SDL_Surface* genSurface = NULL;
 	char gg[30];
 	char num[10];
 	strcpy(gg, "generation: ");
-  sprintf(num, "%d", generation);
+    sprintf(num, "%d", generation);
 	strcat(gg, num);
 	genSurface = TTF_RenderText_Solid(font, gg, white);
 	gen = SDL_CreateTextureFromSurface(renderer, genSurface);
@@ -85,56 +86,124 @@ void setGameWindow(SDL_Window* window, SDL_Renderer* renderer, int CELL, coordin
 	genSurface = NULL;
 	SDL_RenderCopy(renderer, gen, NULL, &genRect);
 
+	// speed
+	char sp[10];
+	strcpy(sp, "speed");
+	SDL_Texture* s = NULL;
+	SDL_Rect speedRect = { WINDOW_W - 63, 265, 50, 20 };
+	SDL_Surface* speedSurface = NULL;
+	speedSurface = TTF_RenderText_Solid(font, sp, white);
+	s = SDL_CreateTextureFromSurface(renderer, speedSurface);
+	SDL_QueryTexture(s, NULL, NULL, &speedRect.w, &speedRect.h);
+	SDL_FreeSurface(speedSurface);
+	speedSurface = NULL;
+	SDL_RenderCopy(renderer, s, NULL, &speedRect);
+
+	// showing instructions
+	SDL_Texture* ins = NULL;
+	SDL_Surface* iSurface = NULL;
+
+	char ins1[50];
+	strcpy(ins1, "arrows - moving on the grid");
+	SDL_Rect ins1Rect = { WINDOW_W*0.45 + 65, WINDOW_H* 0.91, 340, 12 };
+	iSurface = TTF_RenderText_Solid(font, ins1, red);
+	ins = SDL_CreateTextureFromSurface(renderer, iSurface);
+	SDL_QueryTexture(ins, NULL, NULL, &ins1Rect.w, &ins1Rect.h);
+	SDL_FreeSurface(iSurface);
+	iSurface = NULL;
+	SDL_RenderCopy(renderer, ins, NULL, &ins1Rect);
+
+	char ins2[50];
+	strcpy(ins2, "mouse wheel - zoom in/out");
+	SDL_Rect ins2Rect = { WINDOW_W*0.45 + 65, WINDOW_H* 0.91 + 20, 340, 12 };
+	iSurface = TTF_RenderText_Solid(font, ins2, red);
+	ins = SDL_CreateTextureFromSurface(renderer, iSurface);
+	SDL_QueryTexture(ins, NULL, NULL, &ins2Rect.w, &ins2Rect.h);
+	SDL_FreeSurface(iSurface);
+	iSurface = NULL;
+	SDL_RenderCopy(renderer, ins, NULL, &ins2Rect);
+
+	char ins3[50];
+	strcpy(ins3, "R - return to menu");
+	SDL_Rect ins3Rect = { WINDOW_W*0.45 + 400, WINDOW_H* 0.91, 340, 12 };
+	iSurface = TTF_RenderText_Solid(font, ins3, red);
+	ins = SDL_CreateTextureFromSurface(renderer, iSurface);
+	SDL_QueryTexture(ins, NULL, NULL, &ins3Rect.w, &ins3Rect.h);
+	SDL_FreeSurface(iSurface);
+	iSurface = NULL;
+	SDL_RenderCopy(renderer, ins, NULL, &ins3Rect);
+
+	char ins4[50];
+	strcpy(ins4, "P - pause the simulation");
+	SDL_Rect ins4Rect = { WINDOW_W*0.45 + 400, WINDOW_H* 0.91 + 20, 340, 12 };
+	iSurface = TTF_RenderText_Solid(font, ins4, red);
+	ins = SDL_CreateTextureFromSurface(renderer, iSurface);
+	SDL_QueryTexture(ins, NULL, NULL, &ins4Rect.w, &ins4Rect.h);
+	SDL_FreeSurface(iSurface);
+	iSurface = NULL;
+	SDL_RenderCopy(renderer, ins, NULL, &ins4Rect);
+	
 	// setting up all buttons
 	button returnbutt;
-	returnbutt = InitButton(false, WINDOW_W - 50, 10, 30, 30);
+	returnbutt = InitButton(WINDOW_W - 50, 10, 30, 30);
 	returnbutt.texture = IMG_LoadTexture(renderer, "graphics/return.png");
 	SDL_RenderCopy(renderer, returnbutt.texture, NULL, &returnbutt.position);
 	button download;
-	download = InitButton(false, WINDOW_W - 50, 50, 30, 30);
+	download = InitButton(WINDOW_W - 50, 50, 30, 30);
 	download.texture = IMG_LoadTexture(renderer, "graphics/download.png");
 	SDL_RenderCopy(renderer,download.texture, NULL, &download.position);
 	button upload;
-	upload = InitButton(false, WINDOW_W - 50, 90, 30, 30);
+	upload = InitButton(WINDOW_W - 50, 90, 30, 30);
 	upload.texture = IMG_LoadTexture(renderer, "graphics/upload.png");
 	SDL_RenderCopy(renderer, upload.texture, NULL, &upload.position);
 	button play;
-	play = InitButton(false, WINDOW_W - 50, 200, 30, 30);
+	play = InitButton(WINDOW_W - 50, 200, 30, 30);
 	play.texture = IMG_LoadTexture(renderer, "graphics/play.png");
 	SDL_RenderCopy(renderer, play.texture, NULL, &play.position);
+	button plus;
+	plus = InitButton(WINDOW_W - 61, 290, 27, 28);
+	plus.texture = IMG_LoadTexture(renderer, "graphics/plus.png");
+	SDL_RenderCopy(renderer, plus.texture, NULL, &plus.position);
+	button minus;
+	minus = InitButton(WINDOW_W - 32, 290, 27, 28);
+	minus.texture = IMG_LoadTexture(renderer, "graphics/minus.png");
+	SDL_RenderCopy(renderer, minus.texture, NULL, &minus.position);
 
+	// setting up simulation part of the screen
 	SDL_Rect p = { 0, 0, WINDOW_W*0.95, WINDOW_H*0.9 };
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderFillRect(renderer, &p);
 	// drawing grid lines
 	SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
-  int offset = 0;
-  if (playerView.x > 0)
-    offset = CELL - (playerView.x % CELL);
-  else if (playerView.x < 0)
-    offset = abs(playerView.x % CELL);
-
+	// vertical
+	int offset = 0;
+	if (playerView.x > 0)
+		offset = CELL - (playerView.x % CELL);
+	else if (playerView.x < 0)
+		offset = abs(playerView.x % CELL);
 	for (int x = offset; x < WINDOW_W*0.95; x += CELL)
 		SDL_RenderDrawLine(renderer, x, 0, x, WINDOW_H*0.9);
-
-  offset = 0;
-
-  if (playerView.y > 0)
-    offset = CELL - (playerView.y % CELL);
-  else if (playerView.y < 0)
-    offset = abs(playerView.y % CELL);
-
+	// horizontal
+	offset = 0;
+	if (playerView.y > 0)
+		offset = CELL - (playerView.y % CELL);
+	else if (playerView.y < 0)
+		offset = abs(playerView.y % CELL);
 	for (int y = offset; y < WINDOW_H*0.9; y += CELL)
 		SDL_RenderDrawLine(renderer, 0, y, WINDOW_W*0.95, y);
 	
+	// cleanup
 	SDL_DestroyTexture(t);
 	SDL_DestroyTexture(gen);
-	SDL_DestroyTexture(upload.texture);
-	SDL_DestroyTexture(play.texture);
-	SDL_DestroyTexture(download.texture);
-	SDL_DestroyTexture(returnbutt.texture);
-  TTF_CloseFont(font);
-
+	SDL_DestroyTexture(s);
+	SDL_DestroyTexture(ins);
+	clearButton(&play);
+	clearButton(&upload);
+	clearButton(&download);
+	clearButton(&returnbutt);
+	clearButton(&plus);
+	clearButton(&minus);
+	TTF_CloseFont(font);
 }
 
 void colorCell(SDL_Renderer* renderer, int x, int y, SDL_Color color, int CELL) {
@@ -221,11 +290,11 @@ void coex(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, game** g, 
 
 	// adding buttons for different cell types
 	button co1;
-	co1 = InitButton(false, WINDOW_W*0.45 - 35, WINDOW_H* 0.92, 30, 30);
+	co1 = InitButton(WINDOW_W*0.45 - 35, WINDOW_H* 0.92, 30, 30);
 	co1.texture = IMG_LoadTexture(renderer, "graphics/blue.png");
 	SDL_RenderCopy(renderer, co1.texture, NULL, &co1.position);
 	button co2;
-	co2 = InitButton(false, WINDOW_W*0.45 + 5, WINDOW_H* 0.92, 30, 30);
+	co2 = InitButton(WINDOW_W*0.45 + 5, WINDOW_H* 0.92, 30, 30);
 	co2.texture = IMG_LoadTexture(renderer, "graphics/green.png");
 	SDL_RenderCopy(renderer, co2.texture, NULL, &co2.position);
 
@@ -240,11 +309,11 @@ void predator(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, game**
 
 	// adding buttons for different cell types
 	button predator;
-	predator = InitButton(false, WINDOW_W*0.45 - 35, WINDOW_H* 0.92, 30, 30);
+	predator = InitButton(WINDOW_W*0.45 - 35, WINDOW_H* 0.92, 30, 30);
 	predator.texture = IMG_LoadTexture(renderer, "graphics/red.png");
 	SDL_RenderCopy(renderer, predator.texture, NULL, &predator.position);
 	button prey;
-	prey = InitButton(false, WINDOW_W*0.45 + 5, WINDOW_H* 0.92, 30, 30);
+	prey = InitButton(WINDOW_W*0.45 + 5, WINDOW_H* 0.92, 30, 30);
 	prey.texture = IMG_LoadTexture(renderer, "graphics/white.png");
 	SDL_RenderCopy(renderer, prey.texture, NULL, &prey.position);
 	SDL_DestroyTexture(predator.texture);
@@ -258,11 +327,11 @@ void virus(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, game** g,
 	
 	// adding buttons for different cell types
 	button virus;
-	virus = InitButton(false, WINDOW_W*0.45 - 35, WINDOW_H* 0.92, 30, 30);
+	virus = InitButton(WINDOW_W*0.45 - 35, WINDOW_H* 0.92, 30, 30);
 	virus.texture = IMG_LoadTexture(renderer, "graphics/green.png");
 	SDL_RenderCopy(renderer, virus.texture, NULL, &virus.position);
 	button succ;
-	succ = InitButton(false, WINDOW_W*0.45 + 5, WINDOW_H* 0.92, 30, 30);
+	succ = InitButton(WINDOW_W*0.45 + 5, WINDOW_H* 0.92, 30, 30);
 	succ.texture = IMG_LoadTexture(renderer, "graphics/white.png");
 	SDL_RenderCopy(renderer, succ.texture, NULL, &succ.position);
 	SDL_DestroyTexture(virus.texture);
@@ -276,11 +345,11 @@ void unknown(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, game** 
 
 	// adding buttons for different cell types
 	button un1;
-	un1 = InitButton(false, WINDOW_W*0.45 - 35, WINDOW_H* 0.92, 30, 30);
+	un1 = InitButton(WINDOW_W*0.45 - 35, WINDOW_H* 0.92, 30, 30);
 	un1.texture = IMG_LoadTexture(renderer, "graphics/blue.png");
 	SDL_RenderCopy(renderer, un1.texture, NULL, &un1.position);
 	button un2;
-	un2 = InitButton(false, WINDOW_W*0.45 + 5, WINDOW_H* 0.92, 30, 30);
+	un2 = InitButton(WINDOW_W*0.45 + 5, WINDOW_H* 0.92, 30, 30);
 	un2.texture = IMG_LoadTexture(renderer, "graphics/green.png");
 	SDL_RenderCopy(renderer, un2.texture, NULL, &un2.position);
 	SDL_DestroyTexture(un1.texture);

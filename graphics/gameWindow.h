@@ -2,8 +2,8 @@
 #define GAMEWINDOW_HEADER
 
 #include <stdbool.h>
-#include "SDL2/SDL.h"
-#include <SDL2/SDL_ttf.h>
+#include "SDL.h"
+#include <SDL_ttf.h>
 #include "../constants/constants.h"
 #include "../game/game.h"
 #include "graphics.h"
@@ -17,7 +17,7 @@ void left(coordinates *playerView);
 void right(coordinates *playerView);
 
 void setGameWindow(SDL_Window* window, SDL_Renderer* renderer, int cell, coordinates playerView, int time, int generation);
-void colorCell(SDL_Renderer* renderer, int x, int y, SDL_Color color, int cell, coordinates playerView);
+void colorCell(SDL_Renderer* renderer, int x, int y, SDL_Color color, int cell);
 void updateWindow(SDL_Window* window, SDL_Renderer* renderer, cell** table, int cell, coordinates playerView);
 void normal(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, game** g, int cell, coordinates playerView, int time);
 void coex(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, game** g, int cell, coordinates playerView, int time);
