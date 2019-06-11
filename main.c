@@ -1,12 +1,22 @@
 #include <stdbool.h>
 #include <string.h>
-#include <SDL2/SDL_ttf.h>
-#include "SDL2/SDL.h"
 #include "game/game.h"
 #include "graphics/menu.h"
 #include "graphics/graphics.h"
 #include "graphics/gameWindow.h"
 #include "graphics/event.h"
+
+#ifdef _WIN32
+#include "SDL.h"
+#include <SDL_ttf.h>
+#include <SDL_image.h>
+#endif
+
+#ifdef linux 
+#include "SDL2/SDL.h"
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#endif
 
 int main() {
 
