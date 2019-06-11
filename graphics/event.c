@@ -78,33 +78,36 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 				case SDLK_RIGHT:
 					right(&playerView);
 					break;
-        case SDLK_SPACE:
-		case SDLK_RETURN:
-					changedGameMode = 1;
-					switch (*ind) {
-					case 0:
-						(*g)->gameMode = NORMAL;
-						count = 1;
-						break;
-					case 1:
-						(*g)->gameMode = COEX;
-						ctype = CELL_COEX_1;
-						break;
-					case 2:
-						(*g)->gameMode = PREDATOR;
-						break;
-					case 3:
-						(*g)->gameMode = VIRUS;
-						break;
-					case 4:
-						(*g)->gameMode = UNKNOWN;
-						ctype = CELL_COEX_1;
-						break;
-					case 5:
-						isRunning = false;
-						break;
-					default:
-						break;
+				case SDLK_SPACE:
+				case SDLK_RETURN:
+					if ((*g)->gameMode == MENI) {
+						gen = 1;
+						changedGameMode = 1;
+						switch (*ind) {
+						case 0:
+							(*g)->gameMode = NORMAL;
+							count = 1;
+							break;
+						case 1:
+							(*g)->gameMode = COEX;
+							ctype = CELL_COEX_1;
+							break;
+						case 2:
+							(*g)->gameMode = PREDATOR;
+							break;
+						case 3:
+							(*g)->gameMode = VIRUS;
+							break;
+						case 4:
+							(*g)->gameMode = UNKNOWN;
+							ctype = CELL_COEX_1;
+							break;
+						case 5:
+							isRunning = false;
+							break;
+						default:
+							break;
+						}
 					}
 					break;
 				// key for returning to menu
@@ -112,6 +115,8 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 					destroyGame(g);
 					time = 0;
 					initGame(g, MENI);
+					state = 0;
+					gen = 1;
 					break;
 				case SDLK_p:
 					state = !state;
@@ -136,6 +141,7 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 						ctype = CELL_NORMAL;
 						destroyGame(g);
 						initGame(g, MENI);
+						gen = 1;
 						break;
 					}
 					if (CheckIfClickedOn(playpos, (*event).motion.x, (*event).motion.y)) {
@@ -152,11 +158,13 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 					}
 					if (CheckIfClickedOn(downloadpos, (*event).motion.x, (*event).motion.y)) {
 						loadConfigurationWithList(g);
+						gen = 1;
                         state = 0;
                     }
 					if (CheckIfClickedOn(uploadpos, (*event).motion.x, (*event).motion.y)) {
 						saveConfiguration(g);
                         state = 0;
+						gen = 1;
                     }
 					if (CheckIfClickedOn(ctype1pos, (*event).motion.x, (*event).motion.y))
 						switch ((*g)->gameMode)

@@ -27,17 +27,17 @@ SDL_Color sidebar = { 240, 240, 240 };
 
 void zoom_in(int* cell, coordinates *playerView) {
 	if (*cell < 30) {
-        playerView->x += (WINDOW_W*0.95 / (*cell) / 25) * (*cell);
-        playerView->y += (WINDOW_H*0.9 / (*cell) / 25) * (*cell);
+		playerView->x += (WINDOW_W*0.95 / (*cell) / 4);
+		playerView->y += (WINDOW_H*0.9 / (*cell) / 4);
 		(*cell) += (*cell) / 4;
 	}
 }
 
 void zoom_out(int* cell, coordinates *playerView) {
 	if (*cell > 5) {
-        playerView->x -= (WINDOW_W*0.95 / (*cell) / 25) * (*cell);
-        playerView->y -= (WINDOW_H*0.9 / (*cell) / 25) * (*cell);
-	    (*cell) -= (*cell) / 4;
+		(*cell) -= (*cell) / 4;
+		playerView->x -= (WINDOW_W*0.95 / (*cell) / 4);
+		playerView->y -= (WINDOW_H*0.9 / (*cell) / 4);
 	}
 }
 
