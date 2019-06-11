@@ -8,9 +8,19 @@
 #include "gameWindow.h"
 #include "../configurations/configurations.h"
 #include "menu.h"
+#include <stdbool.h>
+
+#ifdef _WIN32
 #include "SDL.h"
 #include <SDL_ttf.h>
-#include <stdbool.h>
+#include <SDL_image.h>
+#endif
+
+#ifdef linux 
+#include "SDL2/SDL.h"
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#endif
 
 // tracks keyboard events and game state 
 void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** texture, TTF_Font** font, SDL_Event* event, int* ind, game** g, Uint32 frameStart, int frameTime) {
@@ -140,10 +150,14 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 						if (gen > 1)
 							gen--;
 					}
-					if (CheckIfClickedOn(downloadpos, (*event).motion.x, (*event).motion.y))
+					if (CheckIfClickedOn(downloadpos, (*event).motion.x, (*event).motion.y)) {
 						loadConfigurationWithList(g);
-					if (CheckIfClickedOn(uploadpos, (*event).motion.x, (*event).motion.y))
+                        state = 0;
+                    }
+					if (CheckIfClickedOn(uploadpos, (*event).motion.x, (*event).motion.y)) {
 						saveConfiguration(g);
+                        state = 0;
+                    }
 					if (CheckIfClickedOn(ctype1pos, (*event).motion.x, (*event).motion.y))
 						switch ((*g)->gameMode)
 						{

@@ -2,11 +2,21 @@
 #define GAMEWINDOW_HEADER
 
 #include <stdbool.h>
-#include "SDL.h"
-#include <SDL_ttf.h>
 #include "../constants/constants.h"
 #include "../game/game.h"
 #include "graphics.h"
+
+#ifdef _WIN32
+#include "SDL.h"
+#include <SDL_ttf.h>
+#include <SDL_image.h>
+#endif
+
+#ifdef linux 
+#include "SDL2/SDL.h"
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#endif
 
 void zoom_in(int* cell, coordinates *playerView);
 void zoom_out(int* cell, coordinates *playerView);

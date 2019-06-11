@@ -1,9 +1,20 @@
 #ifndef GRAPHICS_HEADER
 #define GRAPHICS_HEADER
 
+#include <stdbool.h>
+
+#ifdef _WIN32
 #include "SDL.h"
 #include <SDL_ttf.h>
-#include <stdbool.h>
+#include <SDL_image.h>
+#endif
+
+#ifdef linux 
+#include "SDL2/SDL.h"
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#endif
+
 // window dimensions
 #define WINDOW_W 1300
 #define WINDOW_H 700

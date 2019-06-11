@@ -1,13 +1,22 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdio.h>
-#include "SDL.h"
-#include <SDL_ttf.h>
-#include <SDL_image.h>
 #include "graphics.h"
 #include "../constants/constants.h"
 #include "../game/game.h"
 #include <math.h>
+
+#ifdef _WIN32
+#include "SDL.h"
+#include <SDL_ttf.h>
+#include <SDL_image.h>
+#endif
+
+#ifdef linux 
+#include "SDL2/SDL.h"
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
+#endif
 
 SDL_Color white = { 204, 204, 204 };
 SDL_Color red = { 255, 0, 0 };
@@ -18,17 +27,17 @@ SDL_Color sidebar = { 240, 240, 240 };
 
 void zoom_in(int* cell, coordinates *playerView) {
 	if (*cell < 30) {
-    playerView->x += (WINDOW_W*0.95 / (*cell) / 25) * (*cell);
-    playerView->y += (WINDOW_H*0.9 / (*cell) / 25) * (*cell);
+        playerView->x += (WINDOW_W*0.95 / (*cell) / 25) * (*cell);
+        playerView->y += (WINDOW_H*0.9 / (*cell) / 25) * (*cell);
 		(*cell) += (*cell) / 4;
 	}
 }
 
 void zoom_out(int* cell, coordinates *playerView) {
 	if (*cell > 5) {
-		(*cell) -= (*cell) / 4;
-    playerView->x -= (WINDOW_W*0.95 / (*cell) / 20) * (*cell);
-    playerView->y -= (WINDOW_H*0.9 / (*cell) / 20) * (*cell);
+        playerView->x -= (WINDOW_W*0.95 / (*cell) / 25) * (*cell);
+        playerView->y -= (WINDOW_H*0.9 / (*cell) / 25) * (*cell);
+	    (*cell) -= (*cell) / 4;
 	}
 }
 
@@ -106,42 +115,49 @@ void setGameWindow(SDL_Window* window, SDL_Renderer* renderer, int CELL, coordin
 	char ins1[50];
 	strcpy(ins1, "arrows - moving on the grid");
 	SDL_Rect ins1Rect = { WINDOW_W*0.45 + 65, WINDOW_H* 0.91, 340, 12 };
-	iSurface = TTF_RenderText_Solid(font, ins1, red);
+	iSurface = TTF_RenderText_Solid(font, ins1, white);
 	ins = SDL_CreateTextureFromSurface(renderer, iSurface);
 	SDL_QueryTexture(ins, NULL, NULL, &ins1Rect.w, &ins1Rect.h);
 	SDL_FreeSurface(iSurface);
 	iSurface = NULL;
 	SDL_RenderCopy(renderer, ins, NULL, &ins1Rect);
+	SDL_DestroyTexture(ins);
 
+    ins = NULL;
 	char ins2[50];
 	strcpy(ins2, "mouse wheel - zoom in/out");
 	SDL_Rect ins2Rect = { WINDOW_W*0.45 + 65, WINDOW_H* 0.91 + 20, 340, 12 };
-	iSurface = TTF_RenderText_Solid(font, ins2, red);
+	iSurface = TTF_RenderText_Solid(font, ins2, white);
 	ins = SDL_CreateTextureFromSurface(renderer, iSurface);
 	SDL_QueryTexture(ins, NULL, NULL, &ins2Rect.w, &ins2Rect.h);
 	SDL_FreeSurface(iSurface);
 	iSurface = NULL;
 	SDL_RenderCopy(renderer, ins, NULL, &ins2Rect);
+	SDL_DestroyTexture(ins);
 
+    ins = NULL;
 	char ins3[50];
 	strcpy(ins3, "esc - return to menu");
 	SDL_Rect ins3Rect = { WINDOW_W*0.45 + 400, WINDOW_H* 0.91, 340, 12 };
-	iSurface = TTF_RenderText_Solid(font, ins3, red);
+	iSurface = TTF_RenderText_Solid(font, ins3, white);
 	ins = SDL_CreateTextureFromSurface(renderer, iSurface);
 	SDL_QueryTexture(ins, NULL, NULL, &ins3Rect.w, &ins3Rect.h);
 	SDL_FreeSurface(iSurface);
 	iSurface = NULL;
 	SDL_RenderCopy(renderer, ins, NULL, &ins3Rect);
+	SDL_DestroyTexture(ins);
 
+    ins = NULL;
 	char ins4[50];
 	strcpy(ins4, "P - pause the simulation");
 	SDL_Rect ins4Rect = { WINDOW_W*0.45 + 400, WINDOW_H* 0.91 + 20, 340, 12 };
-	iSurface = TTF_RenderText_Solid(font, ins4, red);
+	iSurface = TTF_RenderText_Solid(font, ins4, white);
 	ins = SDL_CreateTextureFromSurface(renderer, iSurface);
 	SDL_QueryTexture(ins, NULL, NULL, &ins4Rect.w, &ins4Rect.h);
 	SDL_FreeSurface(iSurface);
 	iSurface = NULL;
 	SDL_RenderCopy(renderer, ins, NULL, &ins4Rect);
+	SDL_DestroyTexture(ins);
 	
 	// setting up all buttons
 	button returnbutt;
@@ -196,7 +212,6 @@ void setGameWindow(SDL_Window* window, SDL_Renderer* renderer, int CELL, coordin
 	SDL_DestroyTexture(t);
 	SDL_DestroyTexture(gen);
 	SDL_DestroyTexture(s);
-	SDL_DestroyTexture(ins);
 	clearButton(&play);
 	clearButton(&upload);
 	clearButton(&download);
