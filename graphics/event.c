@@ -158,6 +158,10 @@ void handle_events(SDL_Window** window, SDL_Renderer** renderer, SDL_Texture** t
 					}
 					if (CheckIfClickedOn(downloadpos, (*event).motion.x, (*event).motion.y)) {
 						loadConfigurationWithList(g);
+						playerView.x = playerView.y = 0;
+						CELL = 15;
+						time = 0;
+						timeCounter = -1;
 						gen = 1;
                         state = 0;
                     }

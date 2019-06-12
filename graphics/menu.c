@@ -16,7 +16,7 @@
 #include <SDL2/SDL_image.h>
 #endif
 
-GAME_MODE menu(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, GAME_MODE mode, int ind) {
+void menu(SDL_Window* window, SDL_Renderer* renderer, TTF_Font* font, GAME_MODE mode, int ind) {
 
 	SDL_Color white = { 255, 255, 255 };
 
